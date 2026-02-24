@@ -9,5 +9,103 @@
 <body>
   <!-- Include the script that builds the page and powers Decap CMS -->
   <script src="https://unpkg.com/decap-cms@^3.4.0/dist/decap-cms.js"></script>
+  <script>
+    // Initialize Decap CMS with inline configuration
+    CMS.init({
+      config: {
+        backend: {
+          name: 'github',
+          repo: 'shobitg22/shobitg-violinist',
+          branch: 'main',
+          base_url: 'https://shobitg-violinist-shobitg22s-projects.vercel.app',
+          auth_endpoint: '/api/auth'
+        },
+        media_folder: 'public/images',
+        public_folder: '/images',
+        publish_mode: 'editorial_workflow',
+        collections: [
+          {
+            name: 'about',
+            label: 'About',
+            files: [
+              {
+                label: 'About Content',
+                name: 'about',
+                file: 'data/about.md',
+                fields: [
+                  { label: 'Title', name: 'title', widget: 'string' },
+                  { label: 'Profile Image', name: 'image', widget: 'image' },
+                  { label: 'Content', name: 'body', widget: 'markdown' }
+                ]
+              }
+            ]
+          },
+          {
+            name: 'videos',
+            label: 'Videos',
+            files: [
+              {
+                label: 'Video Gallery',
+                name: 'videos',
+                file: 'data/videos.json',
+                fields: [
+                  {
+                    label: 'Videos',
+                    name: 'videos',
+                    widget: 'list',
+                    fields: [
+                      { label: 'Video ID', name: 'id', widget: 'string', hint: 'YouTube video ID (the part after watch?v=)' },
+                      { label: 'Title', name: 'title', widget: 'string' },
+                      { label: 'Platform', name: 'platform', widget: 'select', options: ['youtube', 'instagram'] },
+                      { label: 'Thumbnail URL', name: 'thumbnail', widget: 'string', hint: 'Full URL to thumbnail image' }
+                    ]
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            name: 'availability',
+            label: 'Availability',
+            files: [
+              {
+                label: 'Calendar Availability',
+                name: 'availability',
+                file: 'data/availability.json',
+                fields: [
+                  {
+                    label: 'Unavailable Dates',
+                    name: 'unavailableDates',
+                    widget: 'list',
+                    field: { label: 'Date', name: 'date', widget: 'datetime', date_format: 'YYYY-MM-DD', time_format: false }
+                  },
+                  { label: 'Note', name: 'note', widget: 'text', required: false }
+                ]
+              }
+            ]
+          },
+          {
+            name: 'settings',
+            label: 'Site Settings',
+            files: [
+              {
+                label: 'General Settings',
+                name: 'general',
+                file: 'data/settings.json',
+                fields: [
+                  { label: 'Site Title', name: 'title', widget: 'string' },
+                  { label: 'Site Description', name: 'description', widget: 'text' },
+                  { label: 'Contact Email', name: 'email', widget: 'string' },
+                  { label: 'WhatsApp Number', name: 'whatsapp', widget: 'string' },
+                  { label: 'Instagram URL', name: 'instagram', widget: 'string' },
+                  { label: 'YouTube URL', name: 'youtube', widget: 'string' }
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    });
+  </script>
 </body>
 </html>
