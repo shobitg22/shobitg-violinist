@@ -1,6 +1,9 @@
 backend:
-  name: git-gateway
+  name: github
+  repo: shobitg22/shobitg-violinist
   branch: main
+  base_url: https://shobitg-violinist-ojdsqtous-shobitg22s-projects.vercel.app
+  auth_endpoint: /api/auth
 
 # Local backend for development
 # Uncomment to use local backend during development

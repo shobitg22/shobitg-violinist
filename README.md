@@ -7,8 +7,9 @@ A modern, responsive portfolio website for professional violinist Shobit G, buil
 - **Hero Section**: Eye-catching landing page with professional branding
 - **Video Gallery**: YouTube video integration with 30-second preview functionality
 - **About Section**: Editable bio and professional information
-- **Booking System**: Calendar-based booking form with email and WhatsApp notifications
-- **Admin Panel**: Decap CMS for easy content management
+- **Booking System**: Calendar-based booking form with Google Sheets integration and WhatsApp notifications
+- **Admin Panel**: Decap CMS with GitHub OAuth authentication (works on Vercel!)
+- **Google Sheets Integration**: Automatic booking data storage in Google Sheets
 - **Responsive Design**: Mobile-first approach, works on all devices
 - **Fast Performance**: Optimized with Next.js 15 and static generation
 
@@ -16,10 +17,10 @@ A modern, responsive portfolio website for professional violinist Shobit G, buil
 
 - **Framework**: Next.js 15 (App Router)
 - **Styling**: Tailwind CSS
-- **CMS**: Decap CMS (Git-based)
+- **CMS**: Decap CMS with GitHub OAuth backend
 - **Video**: YouTube IFrame API via react-youtube
 - **Forms**: React Datepicker for calendar
-- **Email**: Web3Forms (free tier)
+- **Data Storage**: Google Sheets via Apps Script
 - **Hosting**: Vercel
 - **Language**: TypeScript
 
@@ -47,42 +48,49 @@ npm install --legacy-peer-deps
 ```bash
 cp .env.local.example .env.local
 ```
+   Edit `.env.local` with your credentials (see [QUICK_SETUP.md](./QUICK_SETUP.md) for details)
 
-4. Get your Web3Forms access key:
-   - Visit https://web3forms.com/
-   - Enter your email: shobitji2@gmail.com
-   - Copy the access key
-   - Add it to `.env.local`:
-     ```
-     WEB3FORMS_ACCESS_KEY=your_access_key_here
-     ```
-
-5. Run the development server:
+4. Run the development server:
 ```bash
 npm run dev
 ```
 
-6. Open [http://localhost:3000](http://localhost:3000) in your browser
+5. Open [http://localhost:3000](http://localhost:3000) in your browser
+
+## Quick Setup (New Installations)
+
+For a complete setup of admin panel and Google Sheets integration:
+
+1. **Quick Guide**: See [QUICK_SETUP.md](./QUICK_SETUP.md) (15 minutes)
+2. **Detailed Guide**: See [SETUP_GUIDE.md](./SETUP_GUIDE.md) (full instructions)
+
+### What You Need to Set Up:
+
+1. **GitHub OAuth** (for admin panel) - 5 minutes
+2. **Google Sheets** (for booking storage) - 10 minutes
+3. **Environment Variables** (in Vercel) - 2 minutes
 
 ## Admin Panel
 
 ### Accessing the Admin Panel
 
 1. Navigate to `/admin` on your deployed site
-2. Authenticate with GitHub (requires setup - see below)
-3. Manage content directly from the CMS
+2. Click "Login with GitHub"
+3. Authorize the application
+4. Manage content directly from the CMS
 
 ### Setting Up Admin Access
 
-1. **Enable Netlify Identity** (or use GitHub OAuth):
-   - Deploy to Vercel first
-   - Add Netlify Identity widget (already included in admin panel)
-   - Or set up GitHub OAuth for authentication
+The admin panel uses GitHub OAuth for authentication (works perfectly on Vercel!):
 
-2. **Configure Git Gateway**:
-   - The site uses Git Gateway backend
-   - Content changes are committed directly to your repository
-   - Changes trigger automatic redeployment on Vercel
+1. **Create GitHub OAuth App**: https://github.com/settings/developers
+   - Set callback URL to: `https://your-site.vercel.app/api/auth`
+
+2. **Add credentials to Vercel**:
+   - `GITHUB_OAUTH_CLIENT_ID`
+   - `GITHUB_OAUTH_CLIENT_SECRET`
+
+3. **See full instructions**: [SETUP_GUIDE.md](./SETUP_GUIDE.md#github-oauth-setup-for-admin-panel)
 
 ### Managing Content
 
@@ -120,23 +128,27 @@ npm run dev
 1. Users select an available date from the calendar
 2. Fill out the booking form with event details
 3. On submission:
-   - Email sent to `shobitji2@gmail.com` via Web3Forms
-   - WhatsApp notification URL generated (you'll receive notification)
+   - **Data automatically saved to Google Sheets** (your booking database!)
+   - WhatsApp notification URL generated with booking details
    - Confirmation message shown to user
 
-### Email Integration
+### Google Sheets Integration
 
-The site uses **Web3Forms** (free tier - 250 emails/month):
-- No server required
-- Spam protection included
-- Instant delivery
-- No credit card needed
+All bookings are automatically saved to a Google Sheet:
+- **100% Free** - no paid services required
+- Real-time data storage
+- Easy to review and manage bookings
+- Export to Excel/CSV anytime
+- Add custom columns and formulas
+
+**Setup**: See [SETUP_GUIDE.md](./SETUP_GUIDE.md#google-sheets-integration-setup) (10 minutes)
 
 ### WhatsApp Integration
 
 - Generates WhatsApp URL with booking details
 - Link format: `https://wa.me/919419237802?text=...`
 - User's booking details pre-filled in message
+- Instant notifications on your phone
 
 ## Video Gallery
 
@@ -179,8 +191,10 @@ git push -u origin main
    - Go to [vercel.com](https://vercel.com)
    - Click "Import Project"
    - Select your GitHub repository
-   - Add environment variable:
-     - `WEB3FORMS_ACCESS_KEY`: Your Web3Forms key
+   - Add environment variables (see [QUICK_SETUP.md](./QUICK_SETUP.md)):
+     - `GITHUB_OAUTH_CLIENT_ID`
+     - `GITHUB_OAUTH_CLIENT_SECRET`
+     - `GOOGLE_SHEETS_WEBHOOK_URL`
    - Click "Deploy"
 
 3. **Configure Custom Domain** (optional):
@@ -190,16 +204,19 @@ git push -u origin main
 
 ### Post-Deployment Setup
 
-1. **Enable Netlify Identity** (for CMS):
-   - Add site URL to Netlify Identity settings
-   - Configure Git Gateway
-   - Invite yourself as admin user
+1. **Set up GitHub OAuth** (for admin panel):
+   - Follow [QUICK_SETUP.md](./QUICK_SETUP.md) section 1
+   - Takes 5 minutes
 
-2. **Test Everything**:
+2. **Set up Google Sheets** (for bookings):
+   - Follow [QUICK_SETUP.md](./QUICK_SETUP.md) section 2
+   - Takes 10 minutes
+
+3. **Test Everything**:
    - Visit your site
    - Test video playback and 30-second preview
-   - Submit a test booking
-   - Access admin panel and make a change
+   - Submit a test booking (check Google Sheet!)
+   - Access admin panel at `/admin` and make a change
 
 ## Project Structure
 
@@ -207,8 +224,10 @@ git push -u origin main
 shobitg_violinist/
 ├── app/
 │   ├── api/
+│   │   ├── auth/
+│   │   │   └── route.ts          # GitHub OAuth handler
 │   │   └── booking/
-│   │       └── route.ts          # Booking API endpoint
+│   │       └── route.ts          # Booking API endpoint (Google Sheets integration)
 │   ├── globals.css               # Global styles
 │   ├── layout.tsx                # Root layout
 │   └── page.tsx                  # Home page
@@ -225,9 +244,12 @@ shobitg_violinist/
 │   └── videos.json               # Video list (CMS-managed)
 ├── public/
 │   ├── admin/
-│   │   ├── config.yml            # Decap CMS configuration
+│   │   ├── config.yml            # Decap CMS configuration (GitHub backend)
 │   │   └── index.html            # Admin panel entry point
 │   └── images/                   # Uploaded images
+├── google-apps-script.js         # Google Apps Script code (copy to Google Sheets)
+├── SETUP_GUIDE.md                # Detailed setup instructions
+├── QUICK_SETUP.md                # Quick setup guide (TL;DR)
 ├── next.config.js
 ├── tailwind.config.ts
 ├── tsconfig.json
@@ -272,14 +294,16 @@ npm run build
 ### Admin Panel Not Loading
 
 1. Check that `/admin` route is accessible
-2. Verify Netlify Identity is configured
+2. Verify GitHub OAuth credentials are set in Vercel
 3. Check browser console for errors
+4. Ensure callback URL matches exactly in GitHub OAuth app settings
 
-### Booking Form Not Sending Emails
+### Booking Form Not Saving to Google Sheets
 
-1. Verify `WEB3FORMS_ACCESS_KEY` is set in Vercel environment variables
-2. Check spam folder
-3. Verify email address in Web3Forms dashboard
+1. Verify `GOOGLE_SHEETS_WEBHOOK_URL` is set in Vercel environment variables
+2. Check Google Apps Script execution logs (View → Executions)
+3. Ensure Apps Script is deployed with "Anyone" access
+4. Test the webhook URL directly using curl or Postman
 
 ### Videos Not Playing
 
