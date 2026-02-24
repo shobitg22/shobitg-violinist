@@ -1,0 +1,40 @@
+{
+  "videos": [
+    {
+      "id": "dQw4w9WgXcQ",
+      "title": "Sample Performance 1",
+      "platform": "youtube",
+      "thumbnail": "https://i.ytimg.com/vi/dQw4w9WgXcQ/maxresdefault.jpg"
+    },
+    {
+      "id": "9bZkp7q19f0",
+      "title": "Sample Performance 2",
+      "platform": "youtube",
+      "thumbnail": "https://i.ytimg.com/vi/9bZkp7q19f0/maxresdefault.jpg"
+    },
+    {
+      "id": "kJQP7kiw5Fk",
+      "title": "Sample Performance 3",
+      "platform": "youtube",
+      "thumbnail": "https://i.ytimg.com/vi/kJQP7kiw5Fk/maxresdefault.jpg"
+    },
+    {
+      "id": "60ItHLz5WEA",
+      "title": "Sample Performance 4",
+      "platform": "youtube",
+      "thumbnail": "https://i.ytimg.com/vi/60ItHLz5WEA/maxresdefault.jpg"
+    },
+    {
+      "id": "fJ9rUzIMcZQ",
+      "title": "Sample Performance 5",
+      "platform": "youtube",
+      "thumbnail": "https://i.ytimg.com/vi/fJ9rUzIMcZQ/maxresdefault.jpg"
+    },
+    {
+      "id": "ZbZSe6N_BXs",
+      "title": "Sample Performance 6",
+      "platform": "youtube",
+      "thumbnail": "https://i.ytimg.com/vi/ZbZSe6N_BXs/maxresdefault.jpg"
+    }
+  ]
+}

@@ -1,0 +1,73 @@
+backend:
+  name: git-gateway
+  branch: main
+
+# Local backend for development
+# Uncomment to use local backend during development
+# backend:
+#   name: proxy
+#   proxy_url: http://localhost:8081/api/v1
+
+media_folder: "public/images"
+public_folder: "/images"
+
+publish_mode: editorial_workflow
+
+collections:
+  # About Section
+  - name: "about"
+    label: "About"
+    files:
+      - label: "About Content"
+        name: "about"
+        file: "data/about.md"
+        fields:
+          - { label: "Title", name: "title", widget: "string" }
+          - { label: "Profile Image", name: "image", widget: "image" }
+          - { label: "Content", name: "body", widget: "markdown" }
+
+  # Videos Collection
+  - name: "videos"
+    label: "Videos"
+    files:
+      - label: "Video Gallery"
+        name: "videos"
+        file: "data/videos.json"
+        fields:
+          - label: "Videos"
+            name: "videos"
+            widget: "list"
+            fields:
+              - { label: "Video ID", name: "id", widget: "string", hint: "YouTube video ID (the part after watch?v=)" }
+              - { label: "Title", name: "title", widget: "string" }
+              - { label: "Platform", name: "platform", widget: "select", options: ["youtube", "instagram"] }
+              - { label: "Thumbnail URL", name: "thumbnail", widget: "string", hint: "Full URL to thumbnail image" }
+
+  # Availability Calendar
+  - name: "availability"
+    label: "Availability"
+    files:
+      - label: "Calendar Availability"
+        name: "availability"
+        file: "data/availability.json"
+        fields:
+          - label: "Unavailable Dates"
+            name: "unavailableDates"
+            widget: "list"
+            field: { label: "Date", name: "date", widget: "datetime", date_format: "YYYY-MM-DD", time_format: false }
+          - { label: "Note", name: "note", widget: "text", required: false }
+
+  # Site Settings
+  - name: "settings"
+    label: "Site Settings"
+    files:
+      - label: "General Settings"
+        name: "general"
+        file: "data/settings.json"
+        fields:
+          - { label: "Site Title", name: "title", widget: "string" }
+          - { label: "Site Description", name: "description", widget: "text" }
+          - { label: "Contact Email", name: "email", widget: "string" }
+          - { label: "WhatsApp Number", name: "whatsapp", widget: "string" }
+          - { label: "Instagram URL", name: "instagram", widget: "string" }
+          - { label: "YouTube URL", name: "youtube", widget: "string" }
