@@ -8,7 +8,7 @@ A modern, responsive portfolio website for professional violinist Shobit G, buil
 - **Video Gallery**: YouTube video integration with 30-second preview functionality
 - **About Section**: Editable bio and professional information
 - **Booking System**: Calendar-based booking form with Google Sheets integration and WhatsApp notifications
-- **Admin Panel**: Decap CMS with GitHub OAuth authentication (works on Vercel!)
+- **Custom Admin Panel**: Password-protected admin dashboard for content management
 - **Google Sheets Integration**: Automatic booking data storage in Google Sheets
 - **Responsive Design**: Mobile-first approach, works on all devices
 - **Fast Performance**: Optimized with Next.js 15 and static generation
@@ -17,7 +17,7 @@ A modern, responsive portfolio website for professional violinist Shobit G, buil
 
 - **Framework**: Next.js 15 (App Router)
 - **Styling**: Tailwind CSS
-- **CMS**: Decap CMS with GitHub OAuth backend
+- **Admin Panel**: Custom-built with iron-session authentication
 - **Video**: YouTube IFrame API via react-youtube
 - **Forms**: React Datepicker for calendar
 - **Data Storage**: Google Sheets via Apps Script
@@ -66,7 +66,7 @@ For a complete setup of admin panel and Google Sheets integration:
 
 ### What You Need to Set Up:
 
-1. **GitHub OAuth** (for admin panel) - 5 minutes
+1. **Admin Password** (for admin panel) - 1 minute
 2. **Google Sheets** (for booking storage) - 10 minutes
 3. **Environment Variables** (in Vercel) - 2 minutes
 
@@ -75,28 +75,35 @@ For a complete setup of admin panel and Google Sheets integration:
 ### Accessing the Admin Panel
 
 1. Navigate to `/admin` on your deployed site
-2. Click "Login with GitHub"
-3. Authorize the application
-4. Manage content directly from the CMS
+2. Enter your admin password
+3. Manage all content from the dashboard
+
+**See full documentation:** [ADMIN_PANEL.md](./ADMIN_PANEL.md)
 
 ### Setting Up Admin Access
 
-The admin panel uses GitHub OAuth for authentication (works perfectly on Vercel!):
+The admin panel uses simple password authentication:
 
-1. **Create GitHub OAuth App**: https://github.com/settings/developers
-   - Set callback URL to: `https://your-site.vercel.app/api/auth`
+1. **Set Admin Password** in Vercel environment variables:
+   ```
+   ADMIN_PASSWORD=your_secure_password_here
+   ```
 
-2. **Add credentials to Vercel**:
-   - `GITHUB_OAUTH_CLIENT_ID`
-   - `GITHUB_OAUTH_CLIENT_SECRET`
+2. **Generate Session Secret**:
+   ```bash
+   openssl rand -base64 32
+   ```
+   Add as `SESSION_SECRET` in Vercel
 
-3. **See full instructions**: [SETUP_GUIDE.md](./SETUP_GUIDE.md#github-oauth-setup-for-admin-panel)
+3. **Deploy** and access at `/admin`
+
+**See detailed setup:** [ADMIN_PANEL.md](./ADMIN_PANEL.md#setup-instructions)
 
 ### Managing Content
 
 #### Update About Section
-1. Go to Admin Panel > About
-2. Edit the markdown content
+1. Go to Admin Panel > About / Bio
+2. Edit title, image path, and bio content
 3. Upload a new profile image if needed
 4. Save and publish
 
